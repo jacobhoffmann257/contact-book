@@ -4,6 +4,26 @@ end
 task(:world) do
   pp "World!"
 end
+task(:test => :environment) do
+#Contact.all.order({:last_name)
+Contact.all.order({ :last_name => :asc })
+end
+task(:oldest => :environment) do 
+   x = Contact.where({:date_of_birth => Contact.maximum(:date_of_birth)})
+   pp x
+end
+task(:youngest => :environment) do
+  x = Contact.where({:date_of_birth => Contact.minimum(:date_of_birth)})
+  pp x
+end
+task(:ca => :environment) do 
+  x = Contact.all.where({:state => "CA"})
+  pp x.length
+end
+task(:g => :environment) do
+  x = Contact.all.where("last_name LIKE ?", "%g%")
+  pp x.length
+end
 task(:sample_contacts => :environment) do
   if Rails.env.development?
     Contact.destroy_all
